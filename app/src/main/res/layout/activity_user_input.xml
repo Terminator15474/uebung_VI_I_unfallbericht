@@ -15,7 +15,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
-        android:id="@+id/editTextDate"
+        android:id="@+id/date_accident"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -43,12 +43,11 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/place_accident"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:inputType="textPersonName" />
 
     <TextView
         android:id="@+id/textView3"
@@ -58,12 +57,11 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/postalcode_accident"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:inputType="number" />
 
     <TextView
         android:id="@+id/textView4"
@@ -73,12 +71,11 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/street_accident"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:inputType="textPersonName" />
 
     <TextView
         android:id="@+id/textView5"
@@ -88,20 +85,19 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/number_accident"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number" />
 
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/hurt_accident"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Verletzte" />
+        android:layout_height="wrap_content" />
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/damage_accident"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -115,8 +111,13 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/add_witnesses"
         android:layout_width="125dp"
         android:layout_height="wrap_content"
         android:text="Hinzufügen" />
+
+    <ListView
+        android:id="@+id/witnesses_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
