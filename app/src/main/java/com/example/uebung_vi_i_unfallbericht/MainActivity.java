@@ -9,6 +9,14 @@ import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 public class MainActivity extends AppCompatActivity {
 
     private final int RQC_STORAGE = 1;
@@ -55,8 +63,51 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public boolean writeAccidentReport(AccidentReport ar) {
 
+    public boolean writeAccidentReport(AccidentReport ar, String fileName) {
+        HAS_PERMISSIONS = checkForPermissions();
+        if(!HAS_PERMISSIONS) rerequestPermissions();
+        if(!HAS_PERMISSIONS) return false;
+        File out = getFileStreamPath(fileName);
+        ObjectOutputStream oos = null;
+        try {
+            out.createNewFile();
+            FileOutputStream fos = new FileOutputStream(out);
+            oos = new ObjectOutputStream(fos);
+            oos.writeObject(ar);
+        } catch (IOException e) {
+            Log.e(this.getLocalClassName(), e.getLocalizedMessage());
+        } finally {
+            try {
+                oos.flush();
+                oos.close();
+            } catch (IOException e) {
+                Log.e(this.getLocalClassName(), e.getLocalizedMessage());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public AccidentReport readAccidentReport(String fileName) {
+        HAS_PERMISSIONS = checkForPermissions();
+        if(!HAS_PERMISSIONS) rerequestPermissions();
+        if(!HAS_PERMISSIONS) return null;
+        File in = getFileStreamPath(fileName);
+        if(!in.exists()) return null;
+        try {
+            FileInputStream fis = new FileInputStream(in);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            Object read = ois.readObject();
+            if(!(read instanceof AccidentReport)) {
+                return null;
+            }
+
+            return (AccidentReport) read;
+        } catch (Exception e) {
+            Log.e(this.getLocalClassName(), e.getLocalizedMessage());
+        }
+        return null;
     }
 
 
