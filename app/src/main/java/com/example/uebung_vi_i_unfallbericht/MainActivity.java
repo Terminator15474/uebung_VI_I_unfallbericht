@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener((v) -> {
             startActivity(new Intent(this, UserInputActivity.class));
         });
-
     }
 
     private boolean checkForPermissions() {
