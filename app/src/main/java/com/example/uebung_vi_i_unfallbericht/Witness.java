@@ -11,28 +11,20 @@ public class Witness implements Serializable {
     private String firstname;
     private String lastname;
     private String street;
-    private int city;
-    private int plz;
+    private String city;
     private String phone;
 
 
-    public Witness(String firstname, String lastname, String street, int city, int plz, String phone) {
+    public Witness(String firstname, String lastname, String street, String city, String phone) {
         this.id = ++id_counter;
         this.firstname = firstname;
         this.lastname = lastname;
         this.street = street;
         this.city = city;
-        this.plz = plz;
         this.phone = phone;
     }
 
-    public static int getId_counter() {
-        return id_counter;
-    }
 
-    public static void setId_counter(int id_counter) {
-        Witness.id_counter = id_counter;
-    }
 
     public int getId() {
         return id;
@@ -66,20 +58,12 @@ public class Witness implements Serializable {
         this.street = street;
     }
 
-    public int getCity() {
+    public String getCity() {
         return city;
     }
 
-    public void setCity(int city) {
+    public void setCity(String city) {
         this.city = city;
-    }
-
-    public int getPlz() {
-        return plz;
-    }
-
-    public void setPlz(int plz) {
-        this.plz = plz;
     }
 
     public String getPhone() {
