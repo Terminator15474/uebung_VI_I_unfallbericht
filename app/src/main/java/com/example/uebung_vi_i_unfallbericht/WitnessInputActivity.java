@@ -14,6 +14,12 @@ public class WitnessInputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_witness_input);
 
+        Bundle bundle = getIntent().getExtras();
+        AccidentReport ac = null;
+        if(bundle != null) {
+            ac = (AccidentReport) bundle.getSerializable(getString(R.string.AccidentReportNewKey));
+        }
+
         Button ok_button = (Button) findViewById(R.id.ok_button);
         Button cancel_button = (Button) findViewById(R.id.cancel_button);
         Button delete_button = (Button) findViewById(R.id.delete_button);
@@ -25,6 +31,7 @@ public class WitnessInputActivity extends AppCompatActivity {
         EditText tel = (EditText) findViewById(R.id.tel_witness);
 
 
+        AccidentReport finalAc = ac;
         ok_button.setOnClickListener(view -> {
             if(name.getText().toString().isEmpty() || lastname.getText().toString().isEmpty() || street.getText().toString().isEmpty() || place.getText().toString().isEmpty() || tel.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Bitte alle Felder ausfüllen", Toast.LENGTH_SHORT).show();
@@ -32,8 +39,14 @@ public class WitnessInputActivity extends AppCompatActivity {
                 Witness witness = new Witness(name.getText().toString(), lastname.getText().toString(), street.getText().toString(), place.getText().toString(), tel.getText().toString());
                 Intent i = new Intent(this, UserInputActivity.class);
                 i.putExtra(getString(R.string.WitnessNewKey), witness);
+                i.putExtra(getString(R.string.AccidentReportNewKey), finalAc);
                 startActivity(i);
             }
+        });
+
+        cancel_button.setOnClickListener(view -> {
+            Intent i = new Intent(this, UserInputActivity.class);
+            startActivity(i);
         });
     }
 }

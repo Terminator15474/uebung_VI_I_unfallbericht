@@ -18,7 +18,7 @@ public class AccidentReport implements Serializable {
     private int nr;
     private boolean injured, damage;
 
-    private LinkedList<Witness> witnesses;
+    private LinkedList<Witness> witnesses = new LinkedList<>();
 
     public AccidentReport(int id, String date, String time, String ort, int plz, String street, int nr, boolean injured, boolean damage) {
         this.id = id;
@@ -112,8 +112,20 @@ public class AccidentReport implements Serializable {
         this.damage = damage;
     }
 
-    public void addWittness(Witness w) {
-        witnesses.add(w);
+    public void addWitness(Witness witness) {
+        witnesses.add(witness);
     }
 
+    public void removeWitness(Witness witness) {
+        witnesses.remove(witness);
+    }
+
+    public Witness getWitness(int id) {
+        for (Witness witness : witnesses) {
+            if (witness.getId() == id) {
+                return witness;
+            }
+        }
+        return null;
+    }
 }
