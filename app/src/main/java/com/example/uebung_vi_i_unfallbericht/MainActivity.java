@@ -19,11 +19,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         if(extra != null) {
             Object accidentReportObj = extra.get(getString(R.string.AccidentReportNewKey));
             if(accidentReportObj instanceof AccidentReport) {
+                ((AccidentReport)accidentReportObj).setId(advanceCount());
                 writeAccidentReport((AccidentReport) accidentReportObj, ((AccidentReport)accidentReportObj).getId() + "");
             }
         }
@@ -78,6 +82,31 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    public int advanceCount()  {
+        int prev = -1;
+        try {
+            FileInputStream fis = openFileInput("count.txt");
+            Scanner sc = new Scanner(fis);
+            prev = Integer.parseInt(sc.nextLine());
+            sc.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        deleteFile("count.txt");
+        FileOutputStream fout = null;
+        try {
+            fout = openFileOutput("count.txt", MODE_PRIVATE);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        PrintWriter pw = new PrintWriter(fout);
+        pw.print(prev++);
+        pw.close();
+
+        return prev;
     }
 
 

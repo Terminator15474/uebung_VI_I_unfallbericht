@@ -20,8 +20,8 @@ public class AccidentReport implements Serializable {
 
     private LinkedList<Witness> witnesses = new LinkedList<>();
 
-    public AccidentReport(String date, String time, String ort, int plz, String street, int nr, boolean injured, boolean damage) {
-        this.id = ++counter;
+    public AccidentReport(int id, String date, String time, String ort, int plz, String street, int nr, boolean injured, boolean damage) {
+        this.id = id;
         this.date = date;
         this.time = time;
         this.ort = ort;
