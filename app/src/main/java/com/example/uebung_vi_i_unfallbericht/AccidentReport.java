@@ -1,6 +1,7 @@
 package com.example.uebung_vi_i_unfallbericht;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 public class AccidentReport implements Serializable {
 
@@ -14,6 +15,8 @@ public class AccidentReport implements Serializable {
     private String street;
     private int nr;
     private boolean injured, damage;
+
+    private LinkedList<Witness> witnesses = new LinkedList<>();
 
     public AccidentReport(String date, String time, String ort, int plz, String street, int nr, boolean injured, boolean damage) {
         this.id = ++counter;
@@ -105,5 +108,22 @@ public class AccidentReport implements Serializable {
 
     public void setDamage(boolean damage) {
         this.damage = damage;
+    }
+
+    public void addWitness(Witness witness) {
+        witnesses.add(witness);
+    }
+
+    public void removeWitness(Witness witness) {
+        witnesses.remove(witness);
+    }
+
+    public Witness getWitness(int id) {
+        for (Witness witness : witnesses) {
+            if (witness.getId() == id) {
+                return witness;
+            }
+        }
+        return null;
     }
 }
