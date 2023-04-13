@@ -1,5 +1,7 @@
 package com.example.uebung_vi_i_unfallbericht;
 
+import android.net.wifi.rtt.WifiRttManager;
+
 import java.io.Serializable;
 import java.util.LinkedList;
 
