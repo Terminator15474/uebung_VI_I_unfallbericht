@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+
     private boolean checkForPermissions() {
         int hasWrite = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int hasRead = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
