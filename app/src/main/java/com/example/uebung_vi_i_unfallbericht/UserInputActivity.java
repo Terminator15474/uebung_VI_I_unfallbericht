@@ -31,6 +31,19 @@ public class UserInputActivity extends AppCompatActivity {
         hurt = findViewById(R.id.hurt_accident);
         damage = findViewById(R.id.damage_accident);
 
+        Intent i = getIntent();
+        Bundle extra = i.getExtras();
+        if(extra != null) {
+            Object accidentReportObj = extra.get(getString(R.string.AccidentReportNewKey));
+            if(accidentReportObj instanceof AccidentReport) {
+                date.setText(((AccidentReport) accidentReportObj).getDate());
+                time.setText(((AccidentReport) accidentReportObj).getTime());
+                place.setText(((AccidentReport) accidentReportObj).getOrt());
+                plz.setText(((AccidentReport) accidentReportObj).getPlz()+"");
+                nr.setText(((AccidentReport) accidentReportObj).getNr()+"");
+
+            }
+        }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -65,7 +78,7 @@ public class UserInputActivity extends AppCompatActivity {
             boolean bHurt = hurt.isChecked();
             boolean bDamage = damage.isChecked();
 
-            ar = new AccidentReport(sDate, sTime, sPlace, sPLZ, sStreet, iNr, bHurt, bDamage);
+            ar = new AccidentReport(-1,sDate, sTime, sPlace, sPLZ, sStreet, iNr, bHurt, bDamage);
         } catch(Exception e) {
             ar = null;
             Log.e(this.getLocalClassName(), e.getLocalizedMessage());
