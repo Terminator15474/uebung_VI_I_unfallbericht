@@ -32,6 +32,9 @@ public class AccidentReport implements Serializable {
         this.damage = damage;
     }
 
+    public AccidentReport() {
+        this.id = ++counter;
+    }
     public static int getCounter() {
         return counter;
     }
@@ -128,4 +131,6 @@ public class AccidentReport implements Serializable {
         }
         return null;
     }
+
+
 }

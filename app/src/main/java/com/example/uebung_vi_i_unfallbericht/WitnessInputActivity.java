@@ -14,10 +14,13 @@ public class WitnessInputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_witness_input);
 
-        Bundle bundle = getIntent().getExtras();
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
         AccidentReport ac = null;
+        Witness w = null;
         if(bundle != null) {
             ac = (AccidentReport) bundle.getSerializable(getString(R.string.AccidentReportNewKey));
+            w = (Witness) bundle.getSerializable(getString(R.string.WitnessNewKey));
         }
 
         Button ok_button = (Button) findViewById(R.id.ok_button);
@@ -38,7 +41,8 @@ public class WitnessInputActivity extends AppCompatActivity {
             } else {
                 Witness witness = new Witness(name.getText().toString(), lastname.getText().toString(), street.getText().toString(), place.getText().toString(), tel.getText().toString());
                 Intent i = new Intent(this, UserInputActivity.class);
-                i.putExtra(getString(R.string.WitnessNewKey), witness);
+                System.out.println(finalAc + " ----------------------------------------------");
+                finalAc.addWitness(witness);
                 i.putExtra(getString(R.string.AccidentReportNewKey), finalAc);
                 startActivity(i);
             }
@@ -47,6 +51,20 @@ public class WitnessInputActivity extends AppCompatActivity {
         cancel_button.setOnClickListener(view -> {
             Intent i = new Intent(this, UserInputActivity.class);
             startActivity(i);
+        });
+
+        AccidentReport finalAc1 = ac;
+        Witness finalW = w;
+        delete_button.setOnClickListener(view -> {
+            if(finalW == null) {
+                Intent i = new Intent(this, UserInputActivity.class);
+                startActivity(i);
+            } else {
+
+            finalAc1.removeWitness(finalW);
+            Intent i = new Intent(this, UserInputActivity.class);
+            startActivity(i);
+            }
         });
     }
 }

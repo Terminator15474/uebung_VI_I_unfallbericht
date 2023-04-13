@@ -9,10 +9,15 @@ import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import java.io.Serializable;
+
 public class UserInputActivity extends AppCompatActivity {
 
+    private final String TAG = "UserInputActivity";
     EditText date, time, place, plz, street, nr;
     CheckBox hurt, damage;
+
+    AccidentReport current_report = null;
 
 
 
@@ -20,6 +25,12 @@ public class UserInputActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_input);
+
+        Intent intent = getIntent();
+        Bundle extra = intent.getExtras();
+        if(extra != null) {
+            current_report = (AccidentReport) extra.getSerializable(getString(R.string.AccidentReportNewKey));
+        }
 
 
         date = findViewById(R.id.date_accident);
@@ -33,6 +44,13 @@ public class UserInputActivity extends AppCompatActivity {
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        findViewById(R.id.add_witnesses).setOnClickListener(view -> {
+            Intent i = new Intent(this, WitnessInputActivity.class);
+            AccidentReport ar = parseAccidentReport();
+            i.putExtra(getString(R.string.AccidentReportNewKey), (Serializable)(ar == null ? new AccidentReport() : ar));
+            startActivity(i);
+        });
     }
 
     @Override
