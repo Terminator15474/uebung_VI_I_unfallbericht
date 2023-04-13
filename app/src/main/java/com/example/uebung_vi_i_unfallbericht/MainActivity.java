@@ -8,7 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Xml;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -18,12 +22,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
 
     private final int RQC_STORAGE = 1;
 
     private static boolean HAS_PERMISSIONS = false;
+
+    private LinkedList<String> allFiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +45,38 @@ public class MainActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener((v) -> {
             startActivity(new Intent(this, UserInputActivity.class));
+        });
+
+        /* Handle the extra given by the start intent */
+        Intent i = getIntent();
+        Bundle extra = i.getExtras();
+        if(extra != null) {
+            Object accidentReportObj = extra.get(getString(R.string.AccidentReportNewKey));
+            if(accidentReportObj instanceof AccidentReport) {
+                writeAccidentReport((AccidentReport) accidentReportObj, ((AccidentReport)accidentReportObj).getId() + "");
+            }
+        }
+
+        /* Get all FileNames in a LinkedList */
+        allFiles = new LinkedList<>();
+        allFiles.addAll(Arrays.asList(fileList()));
+
+        /* Bind the allFiles list to the ListView */
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, allFiles);
+        ListView lw = findViewById(R.id.lv_files);
+        lw.setAdapter(arrayAdapter);
+        arrayAdapter.notifyDataSetChanged();
+
+        /* Add listener to  */
+        lw.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String file = allFiles.get(i);
+                AccidentReport report = readAccidentReport(file);
+                Intent intent = new Intent(view.getContext(), UserInputActivity.class);
+                intent.putExtra(getString(R.string.AccidentReportNewKey), report);
+                startActivity(intent);
+            }
         });
     }
 
@@ -73,11 +113,10 @@ public class MainActivity extends AppCompatActivity {
         HAS_PERMISSIONS = checkForPermissions();
         if(!HAS_PERMISSIONS) rerequestPermissions();
         if(!HAS_PERMISSIONS) return false;
-        File out = getFileStreamPath(fileName);
         ObjectOutputStream oos = null;
+        deleteFile(fileName);
         try {
-            out.createNewFile();
-            FileOutputStream fos = new FileOutputStream(out);
+            FileOutputStream fos = openFileOutput(fileName, MODE_PRIVATE);
             oos = new ObjectOutputStream(fos);
             oos.writeObject(ar);
         } catch (IOException e) {
@@ -98,16 +137,14 @@ public class MainActivity extends AppCompatActivity {
         HAS_PERMISSIONS = checkForPermissions();
         if(!HAS_PERMISSIONS) rerequestPermissions();
         if(!HAS_PERMISSIONS) return null;
-        File in = getFileStreamPath(fileName);
-        if(!in.exists()) return null;
         try {
-            FileInputStream fis = new FileInputStream(in);
+            FileInputStream fis = openFileInput(fileName);
             ObjectInputStream ois = new ObjectInputStream(fis);
             Object read = ois.readObject();
             if(!(read instanceof AccidentReport)) {
                 return null;
             }
-
+            ois.close();
             return (AccidentReport) read;
         } catch (Exception e) {
             Log.e(this.getLocalClassName(), e.getLocalizedMessage());

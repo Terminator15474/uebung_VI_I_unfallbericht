@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">uebung_VI_I_unfallbericht</string>
+    <string name="AccidentReportNewKey">ABCDEFGH</string>
 </resources>
