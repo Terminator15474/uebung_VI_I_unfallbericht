@@ -1,23 +1,24 @@
 package com.example.uebung_vi_i_unfallbericht;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class AccidentReport implements Serializable {
 
     private static int counter = 0;
 
     private int id; //automatic
-    private Date datetime;
+    private String date;
+    private String time;
     private String ort;
     private int plz;
     private String street;
     private int nr;
     private boolean injured, damage;
 
-    public AccidentReport(Date datetime, String ort, int plz, String street, int nr, boolean injured, boolean damage) {
+    public AccidentReport(String date, String time, String ort, int plz, String street, int nr, boolean injured, boolean damage) {
         this.id = ++counter;
-        this.datetime = datetime;
+        this.date = date;
+        this.time = time;
         this.ort = ort;
         this.plz = plz;
         this.street = street;
@@ -42,12 +43,20 @@ public class AccidentReport implements Serializable {
         this.id = id;
     }
 
-    public Date getDatetime() {
-        return datetime;
+    public String getDate() {
+        return date;
     }
 
-    public void setDatetime(Date datetime) {
-        this.datetime = datetime;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getOrt() {
