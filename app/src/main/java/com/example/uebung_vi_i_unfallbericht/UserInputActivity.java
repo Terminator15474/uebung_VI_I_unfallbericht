@@ -6,8 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -39,10 +39,15 @@ public class UserInputActivity extends AppCompatActivity {
         if(extra != null) {
             current_report = (AccidentReport) extra.getSerializable(getString(R.string.AccidentReportNewKey));
         }
-        if(current_report != null) {
+
+        if(current_report != null && !(witness_list.getAdapter() instanceof ArrayAdapter)) {
             ArrayAdapter<Witness> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, current_report.getWitnesses());
             witness_list.setAdapter(adapter);
-            Log.d(TAG, "onCreate: " + current_report.getWitnesses());
+            Log.d(TAG, "if2: " + current_report.getWitnesses());
+        }
+
+        if(current_report != null && witness_list.getAdapter() instanceof ArrayAdapter) {
+            ((BaseAdapter)witness_list.getAdapter()).notifyDataSetChanged();
         }
 
         date = findViewById(R.id.date_accident);
@@ -61,7 +66,8 @@ public class UserInputActivity extends AppCompatActivity {
                 place.setText(((AccidentReport) current_report).getOrt());
                 plz.setText(((AccidentReport) current_report).getPlz()+"");
                 nr.setText(((AccidentReport) current_report).getNr()+"");
-
+                hurt.setChecked(((AccidentReport) current_report).isInjured());
+                damage.setChecked(((AccidentReport) current_report).isDamage());
             }
         }
 
