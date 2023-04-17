@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class UserInputActivity extends AppCompatActivity {
 
@@ -42,21 +43,22 @@ public class UserInputActivity extends AppCompatActivity {
         hurt = findViewById(R.id.hurt_accident);
         damage = findViewById(R.id.damage_accident);
 
-        Intent i = getIntent();
-        Bundle extra = i.getExtras();
-        if(extra != null) {
-            Object accidentReportObj = extra.get(getString(R.string.AccidentReportNewKey));
+        Intent intent1 = getIntent();
+        Bundle extra1 = intent1.getExtras();
+        if(extra1 != null) {
+            Object accidentReportObj = extra1.get(getString(R.string.AccidentReportNewKey));
             if(accidentReportObj instanceof AccidentReport) {
                 date.setText(((AccidentReport) accidentReportObj).getDate());
                 time.setText(((AccidentReport) accidentReportObj).getTime());
                 place.setText(((AccidentReport) accidentReportObj).getOrt());
                 plz.setText(((AccidentReport) accidentReportObj).getPlz()+"");
                 nr.setText(((AccidentReport) accidentReportObj).getNr()+"");
-
+                hurt.setChecked(((AccidentReport) accidentReportObj).isInjured());
+                damage.setChecked(((AccidentReport) accidentReportObj).isDamage());
             }
         }
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         findViewById(R.id.add_witnesses).setOnClickListener(view -> {
             Intent i = new Intent(this, WitnessInputActivity.class);
