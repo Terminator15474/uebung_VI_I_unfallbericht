@@ -6,10 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.Objects;
 
 public class UserInputActivity extends AppCompatActivity {
@@ -27,12 +31,19 @@ public class UserInputActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_input);
 
+        ListView witness_list = findViewById(R.id.witnesses_list);
+
+
         Intent intent = getIntent();
         Bundle extra = intent.getExtras();
         if(extra != null) {
             current_report = (AccidentReport) extra.getSerializable(getString(R.string.AccidentReportNewKey));
         }
-
+        if(current_report != null) {
+            ArrayAdapter<Witness> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, current_report.getWitnesses());
+            witness_list.setAdapter(adapter);
+            Log.d(TAG, "onCreate: " + current_report.getWitnesses());
+        }
 
         date = findViewById(R.id.date_accident);
         time = findViewById(R.id.editTextTime);
@@ -43,18 +54,14 @@ public class UserInputActivity extends AppCompatActivity {
         hurt = findViewById(R.id.hurt_accident);
         damage = findViewById(R.id.damage_accident);
 
-        Intent intent1 = getIntent();
-        Bundle extra1 = intent1.getExtras();
-        if(extra1 != null) {
-            Object accidentReportObj = extra1.get(getString(R.string.AccidentReportNewKey));
-            if(accidentReportObj instanceof AccidentReport) {
-                date.setText(((AccidentReport) accidentReportObj).getDate());
-                time.setText(((AccidentReport) accidentReportObj).getTime());
-                place.setText(((AccidentReport) accidentReportObj).getOrt());
-                plz.setText(((AccidentReport) accidentReportObj).getPlz()+"");
-                nr.setText(((AccidentReport) accidentReportObj).getNr()+"");
-                hurt.setChecked(((AccidentReport) accidentReportObj).isInjured());
-                damage.setChecked(((AccidentReport) accidentReportObj).isDamage());
+        if(extra != null) {
+            if(current_report != null) {
+                date.setText(((AccidentReport) current_report).getDate());
+                time.setText(((AccidentReport) current_report).getTime());
+                place.setText(((AccidentReport) current_report).getOrt());
+                plz.setText(((AccidentReport) current_report).getPlz()+"");
+                nr.setText(((AccidentReport) current_report).getNr()+"");
+
             }
         }
 
@@ -62,10 +69,10 @@ public class UserInputActivity extends AppCompatActivity {
 
         findViewById(R.id.add_witnesses).setOnClickListener(view -> {
             Intent i = new Intent(this, WitnessInputActivity.class);
-            AccidentReport ar = parseAccidentReport();
-            i.putExtra(getString(R.string.AccidentReportNewKey), (Serializable)(ar == null ? new AccidentReport() : ar));
+            i.putExtra(getString(R.string.AccidentReportNewKey), (Serializable)(current_report == null ? new AccidentReport() : current_report));
             startActivity(i);
         });
+
     }
 
     @Override

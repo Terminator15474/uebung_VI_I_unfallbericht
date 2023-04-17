@@ -3,6 +3,7 @@ package com.example.uebung_vi_i_unfallbericht;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -41,7 +42,6 @@ public class WitnessInputActivity extends AppCompatActivity {
             } else {
                 Witness witness = new Witness(name.getText().toString(), lastname.getText().toString(), street.getText().toString(), place.getText().toString(), tel.getText().toString());
                 Intent i = new Intent(this, UserInputActivity.class);
-                System.out.println(finalAc + " ----------------------------------------------");
                 finalAc.addWitness(witness);
                 i.putExtra(getString(R.string.AccidentReportNewKey), finalAc);
                 startActivity(i);
