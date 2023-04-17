@@ -89,8 +89,11 @@ public class UserInputActivity extends AppCompatActivity {
                 Intent i = new Intent(this, MainActivity.class);
                 Log.d("HOME BUTTON", "ACTIVITY STARTED");
                 AccidentReport ar = parseAccidentReport();
+                if(ar != null && current_report != null)
+                    ar.setId(current_report.getId());
                 if(ar != null)
                     i.putExtra(getString(R.string.AccidentReportNewKey), ar);
+
                 startActivity(i);
                 return true;
         }

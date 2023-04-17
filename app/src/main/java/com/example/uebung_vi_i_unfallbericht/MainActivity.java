@@ -50,8 +50,12 @@ public class MainActivity extends AppCompatActivity {
         if(extra != null) {
             Object accidentReportObj = extra.get(getString(R.string.AccidentReportNewKey));
             if(accidentReportObj instanceof AccidentReport) {
-                ((AccidentReport)accidentReportObj).setId(advanceCount());
-                writeAccidentReport((AccidentReport) accidentReportObj, ((AccidentReport)accidentReportObj).getId() + "");
+                if(((AccidentReport) accidentReportObj).getId() == -1) {
+                    ((AccidentReport) accidentReportObj).setId(advanceCount());
+                    writeAccidentReport((AccidentReport) accidentReportObj, ((AccidentReport) accidentReportObj).getId() + "");
+                } else {
+                    writeAccidentReport((AccidentReport) accidentReportObj, ((AccidentReport) accidentReportObj).getId() + "");
+                }
             }
         }
 
@@ -102,19 +106,6 @@ public class MainActivity extends AppCompatActivity {
         pw.close();
 
         return prev;
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        Bundle extra = intent.getExtras();
-        if(extra != null) {
-            Object accidentReportObj = extra.get(getString(R.string.AccidentReportNewKey));
-            if(accidentReportObj instanceof AccidentReport) {
-                ((AccidentReport)accidentReportObj).setId(advanceCount());
-                writeAccidentReport((AccidentReport) accidentReportObj, ((AccidentReport)accidentReportObj).getId() + "");
-            }
-        }
-        super.onNewIntent(intent);
     }
 
     public boolean writeAccidentReport(AccidentReport ar, String fileName) {
