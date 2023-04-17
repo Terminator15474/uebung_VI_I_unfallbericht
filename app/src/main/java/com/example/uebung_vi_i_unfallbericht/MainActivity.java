@@ -98,12 +98,24 @@ public class MainActivity extends AppCompatActivity {
             throw new RuntimeException(e);
         }
         PrintWriter pw = new PrintWriter(fout);
-        pw.print(prev++);
+        pw.print(++prev);
         pw.close();
 
         return prev;
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        Bundle extra = intent.getExtras();
+        if(extra != null) {
+            Object accidentReportObj = extra.get(getString(R.string.AccidentReportNewKey));
+            if(accidentReportObj instanceof AccidentReport) {
+                ((AccidentReport)accidentReportObj).setId(advanceCount());
+                writeAccidentReport((AccidentReport) accidentReportObj, ((AccidentReport)accidentReportObj).getId() + "");
+            }
+        }
+        super.onNewIntent(intent);
+    }
 
     public boolean writeAccidentReport(AccidentReport ar, String fileName) {
         ObjectOutputStream oos = null;

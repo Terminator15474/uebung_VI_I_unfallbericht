@@ -87,6 +87,7 @@ public class UserInputActivity extends AppCompatActivity {
             case android.R.id.home:
                 /* Start the MainActivity intent */
                 Intent i = new Intent(this, MainActivity.class);
+                Log.d("HOME BUTTON", "ACTIVITY STARTED");
                 AccidentReport ar = parseAccidentReport();
                 if(ar != null)
                     i.putExtra(getString(R.string.AccidentReportNewKey), ar);
@@ -114,7 +115,7 @@ public class UserInputActivity extends AppCompatActivity {
             ar = new AccidentReport(-1,sDate, sTime, sPlace, sPLZ, sStreet, iNr, bHurt, bDamage);
         } catch(Exception e) {
             ar = null;
-            Log.e(this.getLocalClassName(), e.getLocalizedMessage());
+            Log.e("PARSE ERROR", e.getLocalizedMessage());
         }
         return ar;
     }
