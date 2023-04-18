@@ -50,14 +50,24 @@ public class WitnessInputActivity extends AppCompatActivity {
             if(name.getText().toString().isEmpty() || lastname.getText().toString().isEmpty() || street.getText().toString().isEmpty() || place.getText().toString().isEmpty() || tel.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Bitte alle Felder ausfüllen", Toast.LENGTH_SHORT).show();
             } else {
-                Witness witness = new Witness(name.getText().toString(), lastname.getText().toString(), street.getText().toString(), place.getText().toString(), tel.getText().toString());
-                Intent i = new Intent(this, UserInputActivity.class);
                 if(finalW1 != null) {
-                    finalAc.removeWitness(finalW1);
+                    Intent i = new Intent(this, UserInputActivity.class);
+                    Witness editWitness = finalAc.getWitness(finalW1.getId());
+                    editWitness.setFirstname(name.getText().toString());
+                    editWitness.setLastname(lastname.getText().toString());
+                    editWitness.setStreet(street.getText().toString());
+                    editWitness.setCity(place.getText().toString());
+                    editWitness.setPhone(tel.getText().toString());
+                    i.putExtra(getString(R.string.AccidentReportNewKey), finalAc);
+                    startActivity(i);
+                } else {
+                    Witness witness = new Witness(name.getText().toString(), lastname.getText().toString(), street.getText().toString(), place.getText().toString(), tel.getText().toString());
+                    Intent i = new Intent(this, UserInputActivity.class);
+
+                    finalAc.addWitness(witness);
+                    i.putExtra(getString(R.string.AccidentReportNewKey), finalAc);
+                    startActivity(i);
                 }
-                finalAc.addWitness(witness);
-                i.putExtra(getString(R.string.AccidentReportNewKey), finalAc);
-                startActivity(i);
             }
         });
 

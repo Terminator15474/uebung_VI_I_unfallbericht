@@ -120,7 +120,11 @@ public class AccidentReport implements Serializable {
     }
 
     public void removeWitness(Witness witness) {
-        witnesses.remove(witness);
+        for (int i = 0; i <witnesses.size(); i++) {
+            if (witnesses.get(i).getId() == witness.getId()) {
+                witnesses.remove(i);
+            }
+        }
     }
 
     public Witness getWitness(int id) {
