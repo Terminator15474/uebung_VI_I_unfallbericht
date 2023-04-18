@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
@@ -74,6 +76,16 @@ public class UserInputActivity extends AppCompatActivity {
             Intent i = new Intent(this, WitnessInputActivity.class);
             i.putExtra(getString(R.string.AccidentReportNewKey), (current_report == null ? parseAccidentReport() : current_report));
             startActivity(i);
+        });
+
+        witness_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(UserInputActivity.this, WitnessInputActivity.class);
+                intent.putExtra(getString(R.string.AccidentReportNewKey), (current_report == null ? parseAccidentReport() : current_report));
+                intent.putExtra(getString(R.string.WitnessNewKey), (Serializable) adapterView.getItemAtPosition(i));
+                startActivity(intent);
+            }
         });
 
     }

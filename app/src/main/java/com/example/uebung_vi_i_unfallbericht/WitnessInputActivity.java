@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class WitnessInputActivity extends AppCompatActivity {
+    private final String TAG = "WitnessInputActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class WitnessInputActivity extends AppCompatActivity {
         if(bundle != null) {
             ac = (AccidentReport) bundle.getSerializable(getString(R.string.AccidentReportNewKey));
             w = (Witness) bundle.getSerializable(getString(R.string.WitnessNewKey));
+            Log.d(TAG, "onCreate: " + w);
         }
 
         Button ok_button = (Button) findViewById(R.id.ok_button);
@@ -34,14 +36,25 @@ public class WitnessInputActivity extends AppCompatActivity {
         EditText place = (EditText) findViewById(R.id.place_witness);
         EditText tel = (EditText) findViewById(R.id.tel_witness);
 
+        if(w != null) {
+            name.setText(w.getFirstname());
+            lastname.setText(w.getLastname());
+            street.setText(w.getStreet());
+            place.setText(w.getCity());
+            tel.setText(w.getPhone());
+        }
 
         AccidentReport finalAc = ac;
+        Witness finalW1 = w;
         ok_button.setOnClickListener(view -> {
             if(name.getText().toString().isEmpty() || lastname.getText().toString().isEmpty() || street.getText().toString().isEmpty() || place.getText().toString().isEmpty() || tel.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Bitte alle Felder ausfüllen", Toast.LENGTH_SHORT).show();
             } else {
                 Witness witness = new Witness(name.getText().toString(), lastname.getText().toString(), street.getText().toString(), place.getText().toString(), tel.getText().toString());
                 Intent i = new Intent(this, UserInputActivity.class);
+                if(finalW1 != null) {
+                    finalAc.removeWitness(finalW1);
+                }
                 finalAc.addWitness(witness);
                 i.putExtra(getString(R.string.AccidentReportNewKey), finalAc);
                 startActivity(i);
@@ -50,6 +63,7 @@ public class WitnessInputActivity extends AppCompatActivity {
 
         cancel_button.setOnClickListener(view -> {
             Intent i = new Intent(this, UserInputActivity.class);
+            i.putExtra(getString(R.string.AccidentReportNewKey), finalAc);
             startActivity(i);
         });
 
@@ -58,12 +72,13 @@ public class WitnessInputActivity extends AppCompatActivity {
         delete_button.setOnClickListener(view -> {
             if(finalW == null) {
                 Intent i = new Intent(this, UserInputActivity.class);
+                i.putExtra(getString(R.string.AccidentReportNewKey), finalAc1);
                 startActivity(i);
             } else {
-
-            finalAc1.removeWitness(finalW);
-            Intent i = new Intent(this, UserInputActivity.class);
-            startActivity(i);
+                finalAc1.removeWitness(finalW);
+                Intent i = new Intent(this, UserInputActivity.class);
+                i.putExtra(getString(R.string.AccidentReportNewKey), finalAc1);
+                startActivity(i);
             }
         });
     }
