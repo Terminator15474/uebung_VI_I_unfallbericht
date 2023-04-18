@@ -63,13 +63,12 @@ public class MainActivity extends AppCompatActivity {
         Intent i = getIntent();
         Bundle extra = i.getExtras();
         if(extra != null) {
-            Object accidentReportObj = extra.get(getString(R.string.AccidentReportNewKey));
+            Object accidentReportObj = extra.getSerializable(getString(R.string.AccidentReportNewKey));
             if(accidentReportObj instanceof AccidentReport) {
                 if(((AccidentReport) accidentReportObj).getId() == -1) {
                     ((AccidentReport) accidentReportObj).setId(advanceCount());
                 }
                 writeAccidentReport((AccidentReport) accidentReportObj, ((AccidentReport) accidentReportObj).getId() + "");
-
             }
         }
 

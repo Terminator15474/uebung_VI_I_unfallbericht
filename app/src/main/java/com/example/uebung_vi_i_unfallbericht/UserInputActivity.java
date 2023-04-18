@@ -110,6 +110,8 @@ public class UserInputActivity extends AppCompatActivity {
             boolean bDamage = damage.isChecked();
 
             ar = new AccidentReport(-1,sDate, sTime, sPlace, sPLZ, sStreet, iNr, bHurt, bDamage);
+            if(current_report != null)
+                ar.setWitnesses(current_report.getWitnesses());
         } catch(NumberFormatException nfe) {
             Log.e(TAG, "parseAccidentReport: nfe");
             return new AccidentReport();

@@ -136,4 +136,8 @@ public class AccidentReport implements Serializable {
     public LinkedList<Witness> getWitnesses() {
         return this.witnesses;
     }
+
+    public void setWitnesses(LinkedList<Witness> witnesses) {
+        this.witnesses = witnesses;
+    }
 }
