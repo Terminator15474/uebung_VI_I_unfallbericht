@@ -49,6 +49,7 @@ public class UserInputActivity extends AppCompatActivity {
 
         if(current_report != null && witness_list.getAdapter() instanceof ArrayAdapter) {
             ((BaseAdapter)witness_list.getAdapter()).notifyDataSetChanged();
+            Log.d(TAG, "if3:" + current_report.getWitnesses());
         }
 
         date = findViewById(R.id.date_accident);
