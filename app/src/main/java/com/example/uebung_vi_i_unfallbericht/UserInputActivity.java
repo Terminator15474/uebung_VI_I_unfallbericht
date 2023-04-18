@@ -62,6 +62,9 @@ public class UserInputActivity extends AppCompatActivity {
         if(extra != null) {
             if(current_report != null) {
                 setFields(current_report);
+                ArrayAdapter<Witness> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, current_report.getWitnesses());
+                witness_list.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
             }
         }
 
@@ -125,7 +128,9 @@ public class UserInputActivity extends AppCompatActivity {
         time.setText(report.getTime());
         place.setText(report.getOrt());
         plz.setText(String.valueOf(report.getPlz()));
+        street.setText(report.getStreet());
         nr.setText(String.valueOf(report.getNr()));
         hurt.setChecked(report.isInjured());
-        damage.setChecked(report.isDamage()); }
+        damage.setChecked(report.isDamage());
+    }
 }
