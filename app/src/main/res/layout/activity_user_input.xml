@@ -194,7 +194,7 @@
             <ListView
                 android:id="@+id/witnesses_list"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="500dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/add_witnesses"
                 app:layout_constraintTop_toBottomOf="@+id/add_witnesses" />

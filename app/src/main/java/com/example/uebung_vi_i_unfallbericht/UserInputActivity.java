@@ -46,6 +46,7 @@ public class UserInputActivity extends AppCompatActivity {
 
         if(current_report != null && witness_list.getAdapter() instanceof ArrayAdapter) {
             ((BaseAdapter)witness_list.getAdapter()).notifyDataSetChanged();
+            Log.d(TAG, "if3:" + current_report.getWitnesses());
         }
 
         date = findViewById(R.id.date_accident);
@@ -86,6 +87,7 @@ public class UserInputActivity extends AppCompatActivity {
                 /* Start the MainActivity intent */
                 Intent i = new Intent(this, MainActivity.class);
                 AccidentReport ar = parseAccidentReport();
+
                 if(ar != null)
                     i.putExtra(getString(R.string.AccidentReportNewKey), ar);
                 startActivity(i);
