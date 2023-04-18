@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(!checkForPermissions()) rerequestPermissions();
+
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener((v) -> {
             startActivity(new Intent(this, UserInputActivity.class));
@@ -143,6 +145,19 @@ public class MainActivity extends AppCompatActivity {
             Log.e(this.getLocalClassName(), e.getLocalizedMessage());
         }
         return null;
+    }
+
+    private boolean checkForPermissions() {
+        int hasWrite = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int hasRead = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if(hasWrite == PackageManager.PERMISSION_GRANTED && hasRead == PackageManager.PERMISSION_GRANTED) return true;
+        return false;
+    }
+
+    private void rerequestPermissions() {
+        requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, RQC_STORAGE);
+        Log.d(this.getLocalClassName(), "Permissions rerequested!");
     }
 
 
