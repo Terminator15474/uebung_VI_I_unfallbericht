@@ -40,9 +40,10 @@ public class UserInputActivity extends AppCompatActivity {
             current_report = (AccidentReport) extra.getSerializable(getString(R.string.AccidentReportNewKey));
         }
 
-        if(current_report != null && !(witness_list.getAdapter() instanceof ArrayAdapter)) {
+        if(current_report != null) {
             ArrayAdapter<Witness> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, current_report.getWitnesses());
             witness_list.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
             Log.d(TAG, "if2: " + current_report.getWitnesses());
         }
 
@@ -75,7 +76,7 @@ public class UserInputActivity extends AppCompatActivity {
 
         findViewById(R.id.add_witnesses).setOnClickListener(view -> {
             Intent i = new Intent(this, WitnessInputActivity.class);
-            i.putExtra(getString(R.string.AccidentReportNewKey), (Serializable)(current_report == null ? new AccidentReport() : current_report));
+            i.putExtra(getString(R.string.AccidentReportNewKey), (current_report == null ? parseAccidentReport() : current_report));
             startActivity(i);
         });
 
