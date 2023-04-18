@@ -44,12 +44,10 @@ public class UserInputActivity extends AppCompatActivity {
             ArrayAdapter<Witness> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, current_report.getWitnesses());
             witness_list.setAdapter(adapter);
             adapter.notifyDataSetChanged();
-            Log.d(TAG, "if2: " + current_report.getWitnesses());
         }
 
         if(current_report != null && witness_list.getAdapter() instanceof ArrayAdapter) {
             ((BaseAdapter)witness_list.getAdapter()).notifyDataSetChanged();
-            Log.d(TAG, "if3:" + current_report.getWitnesses());
         }
 
         date = findViewById(R.id.date_accident);
@@ -63,13 +61,7 @@ public class UserInputActivity extends AppCompatActivity {
 
         if(extra != null) {
             if(current_report != null) {
-                date.setText(((AccidentReport) current_report).getDate());
-                time.setText(((AccidentReport) current_report).getTime());
-                place.setText(((AccidentReport) current_report).getOrt());
-                plz.setText(((AccidentReport) current_report).getPlz()+"");
-                nr.setText(((AccidentReport) current_report).getNr()+"");
-                hurt.setChecked(((AccidentReport) current_report).isInjured());
-                damage.setChecked(((AccidentReport) current_report).isDamage());
+                setFields(current_report);
             }
         }
 
@@ -118,10 +110,22 @@ public class UserInputActivity extends AppCompatActivity {
             boolean bDamage = damage.isChecked();
 
             ar = new AccidentReport(-1,sDate, sTime, sPlace, sPLZ, sStreet, iNr, bHurt, bDamage);
+        } catch(NumberFormatException nfe) {
+            Log.e(TAG, "parseAccidentReport: nfe");
+            return new AccidentReport();
         } catch(Exception e) {
             ar = null;
             Log.e("PARSE ERROR", e.getLocalizedMessage());
         }
         return ar;
     }
+
+    public void setFields(AccidentReport report) {
+        date.setText(report.getDate());
+        time.setText(report.getTime());
+        place.setText(report.getOrt());
+        plz.setText(String.valueOf(report.getPlz()));
+        nr.setText(String.valueOf(report.getNr()));
+        hurt.setChecked(report.isInjured());
+        damage.setChecked(report.isDamage()); }
 }
