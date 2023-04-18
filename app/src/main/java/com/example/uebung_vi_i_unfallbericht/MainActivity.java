@@ -54,10 +54,9 @@ public class MainActivity extends AppCompatActivity {
             if(accidentReportObj instanceof AccidentReport) {
                 if(((AccidentReport) accidentReportObj).getId() == -1) {
                     ((AccidentReport) accidentReportObj).setId(advanceCount());
-                    writeAccidentReport((AccidentReport) accidentReportObj, ((AccidentReport) accidentReportObj).getId() + "");
-                } else {
-                    writeAccidentReport((AccidentReport) accidentReportObj, ((AccidentReport) accidentReportObj).getId() + "");
                 }
+                writeAccidentReport((AccidentReport) accidentReportObj, ((AccidentReport) accidentReportObj).getId() + "");
+
             }
         }
 
